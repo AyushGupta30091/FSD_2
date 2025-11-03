@@ -2,226 +2,250 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Expense Tracker</title>
+  <title>Student Mark System</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f7fa;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: 20px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: #f4f4f9;
       padding: 20px;
     }
-
     h2 {
+      color: blue;
       text-align: center;
       margin-bottom: 20px;
-      color: #2c3e50;
     }
 
-    form {
+    /* Layout for 2 boxes side by side */
+    .main-container {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 20px;
+      justify-content: center;
+      gap: 20px;
+    }
+    .left-box, .right-box {
+      border: 2px solid blue;
+      border-radius: 8px;
+      background: white;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .left-box {
+      flex: 2;
+    }
+    .right-box {
+      flex: 1;
+      text-align: center;
     }
 
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #34495e;
-    }
-
-    input {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      width: 100%;
-    }
-
-    input:focus {
-      border-color: #2980b9;
-    }
-
-    button {
-      padding: 8px 12px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .add-btn {
-      background: #27ae60;
-      color: #fff;
-    }
-
-    .add-btn:hover {
-      background: #2ecc71;
-    }
-
-    .delete-btn {
-      background: #e74c3c;
-      color: #fff;
-    }
-
-    .delete-btn:hover {
-      background: #c0392b;
-    }
-
-    .search-bar {
-      margin: 15px 0;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .search-bar input {
-      width: 250px;
-    }
-
+    /* Table styling */
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
     }
-
     th, td {
-      padding: 12px;
-      border-bottom: 1px solid #ddd;
+      border: 2px solid #ccc;
+      padding: 10px;
       text-align: center;
     }
-
     th {
-      background: #34495e;
-      color: #fff;
+      background: blue;
+      color: white;
     }
-
-    tr:hover {
-      background: #f1f1f1;
+    tr:nth-child(even) {
+      background: #f2f2f2;
     }
-
-    .total-display {
-      text-align: right;
+    tr.highlight {
+      background: #ffe6e6;
       font-weight: bold;
-      margin-top: 10px;
-      color: #2c3e50;
+      border: 2px solid red;
+    }
+
+    /* Buttons */
+    .right-box button {
+      margin: 8px 0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      width: 80%;
+      background: #ccc; /* default unhighlighted */
+      color: black;
+    }
+    /* Highlighted buttons */
+    .highlight-button {
+      background: blue;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+
+    /* Inputs */
+    .input-group {
+      margin: 8px 0;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: blue;
+    }
+    .input-group input {
+      width: 90%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Result */
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: blue;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Expense Tracker</h2>
 
-    <!-- Form -->
-    <form id="expense-form">
-      <div>
-        <label for="expense-name">Expense Name</label>
-        <input type="text" id="expense-name" placeholder="Enter expense name" required>
-      </div>
-      <div>
-        <label for="expense-amount">Amount</label>
-        <input type="number" id="expense-amount" placeholder="Enter amount" required>
-      </div>
-      <div>
-        <label for="expense-description">Description</label>
-        <input type="text" id="expense-description" placeholder="Enter description">
-      </div>
-      <div>
-        <label for="expense-date">Date</label>
-        <input type="date" id="expense-date" required>
-      </div>
-      <button type="submit" class="add-btn">Add Expense</button>
-    </form>
+  <h2>Student Mark System</h2>
 
-    <!-- Search -->
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Search by name...">
+  <div class="main-container">
+    <!-- Left Box (Student Table) -->
+    <div class="left-box">
+      <h3 style="color:blue; text-align:center;">Student Records</h3>
+      <table id="marksTable">
+        <tr>
+          <th>Student Name</th>
+          <th>Subject</th>
+          <th>Marks</th>
+        </tr>
+      </table>
     </div>
 
-    <!-- Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Expense Name</th>
-          <th>Amount</th>
-          <th>Description</th>
-          <th>Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="expense-list"></tbody>
-    </table>
+    <!-- Right Box (Controls + Results) -->
+    <div class="right-box">
+      <h3 style="color:blue;">Controls</h3>
+      <button class="highlight-button" onclick="showHighest()"> Show Highest Marks</button>
+      <button onclick="showAverage()"> Show Average</button>
+      <button onclick="sortByMarks()"> Sort by Marks</button>
+      <button onclick="resetTable()"> Reset Sample</button>
+      <button onclick="removeAll()"> Remove All</button>
 
-    <!-- Total display -->
-    <div class="total-display" id="total-display">Total: $0.00</div>
+      <h3 style="color:blue; margin-top:20px;">➕ Add Student</h3>
+      <div class="input-group">
+        <label>Student Name:</label>
+        <input type="text" id="studentName">
+      </div>
+      <div class="input-group">
+        <label>Subject:</label>
+        <input type="text" id="studentSubject">
+      </div>
+      <div class="input-group">
+        <label>Marks:</label>
+        <input type="number" id="studentMarks">
+      </div>
+      <button class="highlight-button" onclick="addStudent()">➕ Add Student</button>
+
+      <div class="result" id="result"></div>
+    </div>
   </div>
 
   <script>
-    const expenseForm = document.getElementById('expense-form');
-    const expenseList = document.getElementById('expense-list');
-    const searchInput = document.getElementById('search');
-    const totalDisplay = document.getElementById('total-display');
-    let expenses = [];
+    const sampleData = [
+      { name: "Rahul", subject: "Math", marks: 85 },
+      { name: "Rahul", subject: "Science", marks: 90 },
+      { name: "Priya", subject: "Math", marks: 78 },
+      { name: "Priya", subject: "English", marks: 88 },
+      { name: "Aman", subject: "Science", marks: 92 }
+    ];
+    let currentData = [...sampleData];
 
-    // Add Expense
-    expenseForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('expense-name').value;
-      const amount = parseFloat(document.getElementById('expense-amount').value);
-      const description = document.getElementById('expense-description').value;
-      const date = document.getElementById('expense-date').value;
-
-      const expense = { id: Date.now(), name, amount, description, date };
-      expenses.push(expense);
-      renderExpenses(expenses);
-
-      expenseForm.reset();
-    });
-
-    // Render Expenses
-    function renderExpenses(expenseArray) {
-      expenseList.innerHTML = '';
-      expenseArray.forEach(exp => {
-        const row = document.createElement('tr');
+    // Render table rows
+    function renderTable(data, highlightMark = null) {
+      const table = document.getElementById("marksTable");
+      table.innerHTML = `
+        <tr>
+          <th>Student Name</th>
+          <th>Subject</th>
+          <th>Marks</th>
+        </tr>`;
+      data.forEach(item => {
+        const row = document.createElement("tr");
+        if (highlightMark !== null && item.marks === highlightMark) {
+          row.classList.add("highlight");
+        }
         row.innerHTML = `
-          <td>${exp.name}</td>
-          <td>$${exp.amount.toFixed(2)}</td>
-          <td>${exp.description}</td>
-          <td>${exp.date}</td>
-          <td><button class="delete-btn" onclick="deleteExpense(${exp.id})">Delete</button></td>
+          <td>${item.name}</td>
+          <td>${item.subject}</td>
+          <td>${item.marks}</td>
         `;
-        expenseList.appendChild(row);
+        table.appendChild(row);
       });
-      updateTotal();
     }
 
-    // Delete Expense
-    function deleteExpense(id) {
-      expenses = expenses.filter(exp => exp.id !== id);
-      renderExpenses(expenses);
+    // Show highest marks
+    function showHighest() {
+      if (currentData.length === 0) return;
+      const highest = Math.max(...currentData.map(s => s.marks));
+      document.getElementById("result").innerHTML = ` Highest Marks: ${highest}`;
+      renderTable(currentData, highest);
     }
 
-    // Search Expense
-    searchInput.addEventListener('input', function() {
-      const searchValue = this.value.toLowerCase();
-      const filtered = expenses.filter(exp => exp.name.toLowerCase().includes(searchValue));
-      renderExpenses(filtered);
-    });
-
-    // Update Total
-    function updateTotal() {
-      const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-      totalDisplay.textContent = 'Total: $' + total.toFixed(2);
+    // Show average
+    function showAverage() {
+      if (currentData.length === 0) return;
+      const avg = (currentData.reduce((sum, s) => sum + s.marks, 0) / currentData.length).toFixed(2);
+      document.getElementById("result").innerHTML = ` Average Marks: ${avg}`;
+      renderTable(currentData);
     }
+
+    // Sort by marks (descending)
+    function sortByMarks() {
+      currentData.sort((a, b) => b.marks - a.marks);
+      renderTable(currentData);
+      document.getElementById("result").innerHTML = " Sorted by Marks (High → Low)";
+    }
+
+    // Reset sample data
+    function resetTable() {
+      currentData = [...sampleData];
+      renderTable(currentData);
+      document.getElementById("result").innerHTML = " Reset to Sample Data";
+    }
+
+    // Remove all rows
+    function removeAll() {
+      currentData = [];
+      renderTable(currentData);
+      document.getElementById("result").innerHTML = " All Records Removed";
+    }
+
+    // Add student row from inputs
+    function addStudent() {
+      const name = document.getElementById("studentName").value.trim();
+      const subject = document.getElementById("studentSubject").value.trim();
+      const marks = parseInt(document.getElementById("studentMarks").value);
+
+      if (name && subject && !isNaN(marks)) {
+        currentData.push({ name, subject, marks });
+        renderTable(currentData);
+        document.getElementById("result").innerHTML = `➕ Added: ${name} (${subject} - ${marks})`;
+
+        // Clear inputs
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentSubject").value = "";
+        document.getElementById("studentMarks").value = "";
+      } else {
+        alert("Please enter valid details for Student, Subject, and Marks.");
+      }
+    }
+
+    // Initial render
+    renderTable(currentData);
   </script>
+
 </body>
 </html>
